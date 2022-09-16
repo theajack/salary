@@ -23,7 +23,7 @@
 function countSalary ({
     salary = 32880, //
     specialAdditionalDeduction = 1500, // 每月专项附加扣除 租房扣除
-    finalNumber = 5, // 年终奖月数
+    yearEndAwardsNumber = 5, // 年终奖月数
     insuranceAndFundBase, // 五险一金计算基础，为上一年度平均薪资，默认为salary
     startingSalary = 5000, // 个税起征点
     insuranceAndFundRate = {
@@ -39,20 +39,20 @@ function countSalary ({
 
     if (!insuranceAndFundBase) insuranceAndFundBase = salary;
 
-    const preTaxYearEndAwards = salary * finalNumber; // 税前年终奖
+    const awardsPreTax = salary * yearEndAwardsNumber; // 税前年终奖
     const result = {
-        preTaxIncome: salary, // 税前月薪
-        afterTaxIncome: [], // 每月税后收入
-        personalIncomeTax: [], // 每月个人所得税
-        preTaxTotalIncome: preTaxYearEndAwards + salary * 12, // 税前年总收入
-        afterTaxTotalIncome: 0, // 税后年总收入
+        salaryPreTax: salary, // 税前月薪
+        salaryAfterTax: [], // 每月税后收入
+        salaryTax: [], // 每月个人所得税
+        totalSalaryPreTax: awardsPreTax + salary * 12, // 税前年总收入
+        totalSalaryAfterTax: 0, // 税后年总收入
         insuranceAndFund: calculateInsuranceAndFund(
             insuranceAndFundBase,
             insuranceAndFundRate,
         ), // 五险一金
-        preTaxYearEndAwards, // 税前年终奖
-        yearEndAwardsPersonalIncomeTax: 0,
-        afterTaxYearEndAwards: 0, // 税后年终奖
+        awardsPreTax, // 税前年终奖
+        awardsTax: 0,
+        awardsAfterTax: 0, // 税后年终奖
     };
 
     let totalPersonalTncomeTax = 0; // 累计个人所得税缴税额
@@ -70,31 +70,31 @@ function countSalary ({
             cumulativePreTaxIncome - accumulatedTaxFreeIncome - cumulativeDeductions -
             cumulativeSpecialDeduction - accumulatedSpecialAdditionalDeductions - others;
 
-        personalIncomeTax = countPersionalIncomeTax({
+        salaryTax = calculatePersionalIncomeTax({
             accumulatedTaxableIncome,
             totalPersonalTncomeTax
         }); // 当月个人所得税
 
         debugger;
-        const afterTaxIncome = salary - result.insuranceAndFund - personalIncomeTax;
-        result.afterTaxIncome.push(afterTaxIncome);
-        result.personalIncomeTax.push(personalIncomeTax);
-        result.afterTaxTotalIncome += afterTaxIncome;
+        const salaryAfterTax = salary - result.insuranceAndFund - salaryTax;
+        result.salaryAfterTax.push(salaryAfterTax);
+        result.salaryTax.push(salaryTax);
+        result.totalSalaryAfterTax += salaryAfterTax;
 
-        totalPersonalTncomeTax += personalIncomeTax; // 累计个人所得税缴税额
+        totalPersonalTncomeTax += salaryTax; // 累计个人所得税缴税额
     }
 
     // 计算年终奖
-    const yearEndAwardsPersonalIncomeTax = calculateYearEndAwardsTax({
+    const awardsTax = calculateYearEndAwardsTax({
         salary,
-        preTaxYearEndAwards,
+        awardsPreTax,
         startingSalary,
     });
 
-    result.yearEndAwardsPersonalIncomeTax = yearEndAwardsPersonalIncomeTax;
-    result.afterTaxYearEndAwards = preTaxYearEndAwards - yearEndAwardsPersonalIncomeTax;
+    result.awardsTax = awardsTax;
+    result.awardsAfterTax = awardsPreTax - awardsTax;
 
-    result.afterTaxTotalIncome += result.afterTaxYearEndAwards;
+    result.totalSalaryAfterTax += result.awardsAfterTax;
 
     return result;
 }
@@ -102,13 +102,13 @@ function countSalary ({
 // 年终奖计税
 function calculateYearEndAwardsTax ({
     salary, // 月基础工资
-    preTaxYearEndAwards, // 税前年终奖
+    awardsPreTax, // 税前年终奖
     startingSalary,
 }) {
 
     const base = (salary > startingSalary)
-        ? preTaxYearEndAwards
-        : (preTaxYearEndAwards - (startingSalary - salary));
+        ? awardsPreTax
+        : (awardsPreTax - (startingSalary - salary));
 
     const {rate, deduction} = countYearEndAwardsLevel(base / 12);
     return base * rate - deduction;
@@ -145,7 +145,7 @@ function calculateInsuranceAndFund (base, rate) {
     return result;
 }
 
-function countPersionalIncomeTax ({
+function calculatePersionalIncomeTax ({
     accumulatedTaxableIncome,
     totalPersonalTncomeTax
 }) {
@@ -216,7 +216,7 @@ function countLevel (salary, levels) {
 countSalary({
     salary: 53000, //
     specialAdditionalDeduction: 1500, // 每月专项附加扣除 租房扣除
-    finalNumber: 3, // 年终奖月数
+    yearEndAwardsNumber: 3, // 年终奖月数
     insuranceAndFundBase, // 五险一金计算基础，为上一年度平均薪资，默认为salary
     startingSalary: 5000, // 个税起征点
     insuranceAndFundRate: {
