@@ -32,6 +32,7 @@ export interface ICalculateData<T = IInsuranceAndFund> {
     insuranceAndFundBase: number;
     startingSalary: number;
     insuranceAndFundRate: T;
+    insuranceAndFundRateOfCompany: T;
     extraBonus: number[];
     housingFundRange: IHousingFundRange;
 }
@@ -49,6 +50,7 @@ export interface ICalculateResult {
     salaryAfterTax: number[];
     salaryTax: number[];
     salaryTotalTax: number;
+    totalSalaryAfterTaxExcludeAwards: number;
     totalSalaryPreTax: number;
     totalSalaryAfterTax: number;
     insuranceAndFund: IInsuranceAndFundResult;

@@ -22,7 +22,8 @@
 import {calculateInsuranceAndFund} from './fund';
 import {calculatePersionalIncomeTax} from './tax';
 import {calculateYearEndAwardsTax} from './award';
-import {ICalculateData, ICalculateOptions, ICalculateResult} from './type';
+import {ICalculateData, ICalculateResult} from './type';
+import {sumArray} from './utils';
 
 export function calculateSalary ({
     salary = 32880, //
@@ -32,6 +33,13 @@ export function calculateSalary ({
     insuranceAndFundBase = 0, // 五险一金计算基础，为上一年度平均薪资，默认为salary
     startingSalary = 5000, // 个税起征点
     insuranceAndFundRate = {
+        pension: 0.08, // 养老保险 个人缴费费率为8%;
+        medicalInsurance: 0.02, // 医疗保险 个人缴费比例为2%;
+        unemploymentInsurance: 0.005, // 失业保险 个人缴费比例为0.5%;
+        housingFund: 0.07, // 住房公积金 7%
+        supplementaryFund: 0.05, // 补充公积金 5%
+    },
+    insuranceAndFundRateOfCompany = {
         pension: 0.08, // 养老保险 个人缴费费率为8%;
         medicalInsurance: 0.02, // 医疗保险 个人缴费比例为2%;
         unemploymentInsurance: 0.005, // 失业保险 个人缴费比例为0.5%;
@@ -52,9 +60,17 @@ export function calculateSalary ({
         startingSalary,
     });
 
+    // 计算五险一金
     const insuranceAndFund = calculateInsuranceAndFund({
         insuranceAndFundBase,
         insuranceAndFundRate,
+        housingFundRange,
+    });
+
+    // 计算五险一金 公司缴费部分
+    const insuranceAndFundOfCompany = calculateInsuranceAndFund({
+        insuranceAndFundBase,
+        insuranceAndFundRate: insuranceAndFundRateOfCompany,
         housingFundRange,
     });
 
@@ -62,13 +78,39 @@ export function calculateSalary ({
         salaryPreTax: salary, // 税前月薪
         salaryAfterTax: [], // 每月税后收入
         salaryTax: [], // 每月个人所得税
+        salaryTotalTax: 0,
+        totalSalaryAfterTaxExcludeAwards: 0, // 除去年终奖总收入
         totalSalaryPreTax: awardsPreTax + salary * 12, // 税前年总收入
         totalSalaryAfterTax: 0, // 税后年总收入
-        insuranceAndFund: insuranceAndFund, // 五险一金
+        insuranceAndFund, // 五险一金
+        insuranceAndFundOfCompany,
         awardsPreTax, // 税前年终奖
         awardsTax,
         awardsAfterTax, // 税后年终奖
     };
+    
+    return result;
+    
+}
+
+// 累计计算过程
+export function accumulateCalculate ({
+    salary,
+    extraBonus,
+    startingSalary,
+    specialAdditionalDeduction,
+    totalFund,
+    awardsAfterTax,
+}: Pick<
+    ICalculateData,
+    'salary' | 'extraBonus' | 'startingSalary' | 'specialAdditionalDeduction'
+> & {
+    totalFund: number; // 每月累计专项扣除 就是个人缴纳的五险一金
+    awardsAfterTax: number;
+}) {
+
+    const salaryAfterTax: number[] = [];
+    const salaryTax: number[] = [];
     
     let totalPersonalTncomeTax = 0; // 累计个人所得税缴税额
 
@@ -76,7 +118,7 @@ export function calculateSalary ({
         const cumulativePreTaxIncome = i * salary + (extraBonus[i - 1] || 0); // 累计应税收入 todo 额外津贴奖金
         const accumulatedTaxFreeIncome = 0; // 累计免税收入 todo
         const cumulativeDeductions = startingSalary * i; // 累计减除费用
-        const cumulativeSpecialDeduction = result.insuranceAndFund.totalFund * i; // 累计专项扣除
+        const cumulativeSpecialDeduction = totalFund * i; // 累计专项扣除
         const accumulatedSpecialAdditionalDeductions = specialAdditionalDeduction * i; // 累计专项附加扣除
         const others = 0; // todo
         // 累计应纳税所得额 = 累计应税收入 - 累计免税收入 - 累计减除费用 - 累计专项扣除 - 累计专项附加扣除 - 累计依法确定的其他扣除
@@ -84,23 +126,23 @@ export function calculateSalary ({
             cumulativePreTaxIncome - accumulatedTaxFreeIncome - cumulativeDeductions -
             cumulativeSpecialDeduction - accumulatedSpecialAdditionalDeductions - others;
 
-        const salaryTax = calculatePersionalIncomeTax({
+        const singleSalaryTax = calculatePersionalIncomeTax({
             accumulatedTaxableIncome,
             totalPersonalTncomeTax
         }); // 当月个人所得税
 
-        const salaryAfterTax = salary - result.insuranceAndFund.totalFund - salaryTax;
-        result.salaryAfterTax.push(salaryAfterTax);
-        result.salaryTax.push(salaryTax);
-        result.totalSalaryAfterTax += salaryAfterTax;
-
-        totalPersonalTncomeTax += salaryTax; // 累计个人所得税缴税额
+        const singleSalaryAfterTax = salary - totalFund - singleSalaryTax;
+        salaryAfterTax.push(singleSalaryAfterTax);
+        salaryTax.push(singleSalaryTax);
+        totalPersonalTncomeTax += singleSalaryTax; // 累计个人所得税缴税额
     }
 
-    result.totalSalaryAfterTax += result.awardsAfterTax;
+    const totalSalaryAfterTaxExcludeAwards = sumArray(salaryAfterTax);
+    const salaryTotalTax = sumArray(salaryTax);
 
-    return result;
-    
+    return {
+        totalSalaryAfterTaxExcludeAwards,
+        salaryTotalTax,
+        totalSalaryAfterTax: totalSalaryAfterTaxExcludeAwards + awardsAfterTax
+    };
 }
-
-

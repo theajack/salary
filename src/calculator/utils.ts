@@ -15,3 +15,7 @@ export function countLevel (salary: number, levels: ILevels) {
     }
     return {rate: 0, deduction: 0};
 }
+
+export function sumArray (array: number[]) {
+    return array.reduce((a, b) => a + b, 0);
+}
