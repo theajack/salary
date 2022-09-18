@@ -1,0 +1,26 @@
+{
+    "name": "easy-salary",
+    "main": "easy-salary.min.js",
+    "unpkg": "easy-salary.min.js",
+    "jsdelivr": "easy-salary.min.js",
+    "version": "1.0.0",
+    "description": "适用于最新个税计算规则的工资计算器",
+    "typings": "index.d.ts",
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/theajack/salary.git"
+    },
+    "keywords": [
+        "工资计算器","个税计算器","工资计算最新"
+    ],
+    "author": "theajack",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/theajack/salary/issues"
+    },
+    "homepage": "https://theajack.github.io/salary/",
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org"
+    }
+}
