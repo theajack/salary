@@ -15,7 +15,7 @@
     公积金范围 [ 2590, 34188 ]
  */
 
-import {ICalculateData, IInsuranceAndFundResult} from './type';
+import {ICalculateData, IInsuranceAndFundResult} from './index.d';
 
 // 五险一金计算器
 export function calculateInsuranceAndFund ({
@@ -26,14 +26,16 @@ export function calculateInsuranceAndFund ({
     ICalculateData,
     'insuranceAndFundBase' | 'insuranceAndFundRate' | 'housingFundRange'
 >) {
-    const result: IInsuranceAndFundResult = {} as any;
-    let totalFund = 0;
+    const result: IInsuranceAndFundResult = {
+        totalFund: 0,
+    } as any;
 
     for (const k in insuranceAndFundRate) {
 
+        const key = k as keyof IInsuranceAndFundResult;
         let countBaseSalary = insuranceAndFundBase;
 
-        if (k === 'housingFund' || k === 'supplementaryFund') {
+        if (key === 'housingFund' || key === 'supplementaryFund') {
             if (insuranceAndFundBase < housingFundRange.min) {
                 countBaseSalary = housingFundRange.min;
             } else if (insuranceAndFundBase > housingFundRange.max) {
@@ -41,11 +43,10 @@ export function calculateInsuranceAndFund ({
             }
         }
 
-        const value = countBaseSalary[k] * countBaseSalary;
-        result[k] = value;
-        totalFund += value;
+        const value = (insuranceAndFundRate as any)[key] * countBaseSalary;
+        result[key] = value;
+        result.totalFund += value;
     }
-    result.totalFund = totalFund;
     result.totalHousingFund = result.housingFund + result.supplementaryFund;
     return result;
 }

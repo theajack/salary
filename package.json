@@ -1,19 +1,20 @@
 {
-    "name": "ts-demo",
+    "name": "salary",
     "version": "0.0.1",
-    "description": "idcard",
+    "description": "salary",
     "scripts": {
         "dev": "webpack-dev-server --open --config webpack-config/dev.js",
         "build": "webpack --config webpack-config/build.js",
+        "build:page": "webpack --config webpack-config/build-page.js",
         "lint": "eslint src --ext js"
     },
     "author": "theajack",
     "repository": {
         "type": "git",
-        "url": "https://github.com/theajack/ebuild-cli"
+        "url": "https://github.com/theajack/salary"
     },
     "keywords": [
-        "ebuild-cli"
+        "salary"
     ],
     "license": "MIT",
     "devDependencies": {

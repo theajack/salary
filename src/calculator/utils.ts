@@ -3,7 +3,7 @@
  * @Date: 2022-09-16 08:44:39
  * @Description: Coding something
  */
-import {ILevels} from './type';
+import {ILevels} from './index.d';
 
 
 export function countLevel (salary: number, levels: ILevels) {
@@ -18,4 +18,8 @@ export function countLevel (salary: number, levels: ILevels) {
 
 export function sumArray (array: number[]) {
     return array.reduce((a, b) => a + b, 0);
+}
+
+export function avgArray (array: number[]) {
+    return sumArray(array) / array.length;
 }

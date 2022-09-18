@@ -1,16 +1,45 @@
-## 工资计算器
+## [easy-salary](https://github.com/theajack/salary) （工资计算器）
 
-适用于2022年新个税计算法，包含基础月薪、年终奖、五险一金、个人所得税计算
+**[在线使用](https://theajack.github.io/salary)**
+
+适用于2022年新个税计算法的工资计算器，包含基础月薪、年终奖、五险一金、个人所得税计算
 
 ### 0. 使用
 
 #### 1. 安装使用
 
-todo
+```
+npm i easy-salary
+```
+
+```ts
+import {Salary} from 'easy-salary';
+
+const result = (new Salary({
+    salary: 10000,
+    // ... 其他配置
+})).calculate();
+```
+
+详细配置与返回结果请参考 [声明文件](https://github.com/theajack/salary/blob/master/src/calculator/index.d.ts) 或 [在线使用](https://theajack.github.io/salary)
+
+**cdn 引入**
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/easy-salary/easy-salary.min.js"></script>
+<script>
+const result = (new window.Salary({
+    salary: 10000,
+    // ... 其他配置
+})).calculate();
+</script>
+```
+
+
 
 #### 2. 在线使用
 
-todo
+[点击前往](https://theajack.github.io/salary)
 
 ### 1. 工资算法
 

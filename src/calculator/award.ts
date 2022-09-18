@@ -8,7 +8,7 @@
 // 1、发放年终奖的当月工资高于5000元时，年终奖扣税方式为：年终奖乘税率-速算扣除数，税率是按年终奖/12作为“应纳税所得额”对应的税率。
 // 2、当月工资低于5000元时，年终奖个人所得税=(年终奖-(5000-月工资))乘税率-速算扣除数，税率是按年终奖-(5000-月工资)除以12作为“应纳税所得额”对应的税率。
 
-import {ICalculateData} from './type';
+import {ICalculateData} from './index.d';
 import {countLevel} from './utils';
 
 // 年终奖计税
@@ -36,7 +36,7 @@ export function calculateYearEndAwardsTax ({
     };
 }
 
-function countYearEndAwardsLevel (avgPreTaxYearEndAwards) {
+function countYearEndAwardsLevel (avgPreTaxYearEndAwards: number) {
     const levels = [
         {value: 3000, rate: 0.03, deduction: 0},
         {value: 12000, rate: 0.1, deduction: 210},

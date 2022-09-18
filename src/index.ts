@@ -1,17 +1,8 @@
-import hello from './demo';
-import {b, fn} from './a';
+/*
+ * @Author: tackchen
+ * @Date: 2022-09-15 10:34:56
+ * @Description: Coding something
+ */
+import {UI} from './ui';
 
-const main = () => {
-    window.console.log(hello);
-    window.alert(hello);
-    [1, 2, 3].forEach((num) => {
-        window.console.log(num);
-    });
-    class a {
-
-    }
-    console.log(new a(), b, fn());
-};
-
-
-main();
+new UI();

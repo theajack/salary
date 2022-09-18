@@ -1,3 +1,8 @@
+/*
+ * @Author: tackchen
+ * @Date: 2022-09-15 10:34:56
+ * @Description: Coding something
+ */
 const path = require('path');
 module.exports = {
     mode: 'development',
@@ -21,6 +26,9 @@ module.exports = {
     },
     module: {
         rules: [{
+            test: /\.vue$/,
+            use: ['vue-loader']
+        }, {
             test: /(.ts)$/,
             use: {
                 loader: 'ts-loader'

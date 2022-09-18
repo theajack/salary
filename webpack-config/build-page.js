@@ -1,22 +1,20 @@
 /*
  * @Author: tackchen
- * @Date: 2022-09-15 10:34:56
+ * @Date: 2022-09-19 00:24:30
  * @Description: Coding something
  */
 const path = require('path');
-const {copyNpm} = require('../helper/copy-docs');
-copyNpm();
+const {copyDocs} = require('../helper/copy-docs');
+
+copyDocs();
+
 module.exports = () => {
     return {
         mode: 'production',
-        entry: path.resolve('./', 'src/calculator/index.ts'),
+        entry: path.resolve('./', 'src/index.ts'),
         output: {
-            path: path.resolve('./', 'npm'),
-            filename: 'easy-salary.min.js',
-            library: 'Salary',
-            libraryTarget: 'umd',
-            globalObject: 'this',
-            libraryExport: 'default',
+            path: path.resolve('./', 'docs'),
+            filename: 'bundle.js',
         },
         resolve: {
             extensions: [ '.tsx', '.ts', '.js' ]
@@ -42,6 +40,6 @@ module.exports = () => {
                     configFile: './.eslintrc.js'
                 }
             }]
-        }
+        },
     };
 };

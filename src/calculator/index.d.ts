@@ -37,7 +37,7 @@ export interface ICalculateData<T = IInsuranceAndFund> {
     startingSalary: number;
     insuranceAndFundRate: T;
     insuranceAndFundRateOfCompany: T ;
-    extraBonus: number[];
+    extraBonus: number[] | number;
     housingFundRange: IHousingFundRange;
 }
 
@@ -66,7 +66,7 @@ export interface ICalculateResult {
     awardsAfterTax: number;
 }
 
-export class Salary implements ICalculateData {
+export default class Salary implements ICalculateData {
     salary: number; // 基础工资
     specialAdditionalDeduction: number; // 每月专项附加扣除 租房扣除
     yearEndAwardsNumber: number; // 年终奖月数
@@ -80,6 +80,6 @@ export class Salary implements ICalculateData {
 
     salaryResult: ICalculateResult;
 
-    constructor (options?: Partial<ICalculateData>);
-    count (): ICalculateResult;
+    constructor (options: Partial<ICalculateData>);
+    calculate (): ICalculateResult;
 }
