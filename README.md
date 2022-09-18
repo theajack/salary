@@ -13,7 +13,7 @@ npm i easy-salary
 ```
 
 ```ts
-import {Salary} from 'easy-salary';
+import Salary from 'easy-salary';
 
 const result = (new Salary({
     salary: 10000,

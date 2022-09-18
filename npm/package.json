@@ -3,7 +3,7 @@
     "main": "easy-salary.min.js",
     "unpkg": "easy-salary.min.js",
     "jsdelivr": "easy-salary.min.js",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "适用于最新个税计算规则的工资计算器",
     "typings": "index.d.ts",
     "scripts": {},
