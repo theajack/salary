@@ -15,12 +15,12 @@ view, text {
   width: 40%;
   min-width: 40%;
   height: 100%;
-  background-color: #152a65;
+  background-color: #ed9b3a;
   padding-left: 100px;
 }
 
 .right{
-  color: #152a65;
+  color: #ed9b3a;
   flex: 1;
   height: 100%;
   padding-right: 100px;
@@ -69,10 +69,10 @@ view, text {
   font-weight: bold;
   margin-right: 10px;
   /* background-color: #fff;
-  color: #152a65; */
+  color: #ed9b3a; */
 }
 .right .salary-title, .right .salary-wrapper-title{
-  background-color: #152a65;
+  background-color: #ed9b3a;
   color: #fff;
   padding: 3px;
 }
@@ -88,8 +88,9 @@ view, text {
   text-align: center;
 }
 .salary-result{
-  border-bottom: 1px solid #152a65;
+  border-bottom: 1px solid #ed9b3a;
   text-align: center;
+  word-break: break-all;
 }
 .salary-wrapper-title{
   margin-top: 10px;
@@ -104,12 +105,10 @@ view, text {
   cursor: pointer;
 }
 .salary-not-nec{
-  position: absolute;
-  visibility: hidden;
+  display: none;
 }
-.salary-not-nec.show{
-  position: relative;
-  visibility: visible;
+.show-unnecessary .salary-not-nec{
+  display: block;
 }
 .input-more{
   margin-bottom: 15px;
@@ -134,7 +133,7 @@ view, text {
   margin: 0 3px;
 }
 .right .info-detail{
-  border: 1px solid #152a65;
+  border: 1px solid #ed9b3a;
 }
 @media screen and (max-width: 600px){
   #app{
@@ -148,7 +147,7 @@ view, text {
       padding: 20px;
   }
   .left{
-      padding-top: 50px;
+      /* padding-top: 50px; */
   }
   .header{    
       height: 40px;
@@ -166,7 +165,7 @@ view, text {
       right: 10px;
   }
   .left .header {
-      background-color: #152a65;
+      background-color: #ed9b3a;
       width: 100%;
   }
   

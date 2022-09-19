@@ -2,148 +2,65 @@
 
 <view id="app">
     <view class="left">
-        <view class="header">
-          <view class="header-item">工资计算器</view>
-        </view>
-        <view class="input-area">
-            <view class="input-more"><view class="info-detail">i</view><text>展开更多信息</text></view>
-            
-            <view class="salary-item"><text class="salary-title">月基础工资</text><input class="salary-input"
-                    type="number" /><text class="salary-unit">元</text><view class="info-detail">i</view></view>
-            <view class="salary-item"><text class="salary-title">年终奖月数</text><input class="salary-input"
-                    type="number" /><text class="salary-unit">个月</text><view class="info-detail">i</view></view>
-            <view class="salary-item salary-not-nec"><text class="salary-title">年终奖总额</text><input class="salary-input"
-                    type="number" /><text class="salary-unit">元</text><view class="info-detail" class="ei-info-sign"
-                    title="年终奖总金额，如果填写该项，计算优先级会高于年终奖月数，当为0时则使用yearEndAwardsNumber计算"></view></view>
-            <view class="salary-item salary-not-nec"><text class="salary-title">每月专项附加扣除</text><input
-                    class="salary-input" type="number" /><text class="salary-unit">元</text><view class="info-detail" class="ei-info-sign"
-                    title="详情请见个税APP或工资单流水中"></view></view>
-            <view class="salary-wrapper">
-                <view class="salary-wrapper-title">五险一金个人缴纳部分</view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">养老保险个人缴纳百分比</text><input
-                        class="salary-input" type="number" /></view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">医疗保险个人缴纳百分比</text><input
-                        class="salary-input" type="number" /></view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">失业保险个人缴纳百分比</text><input
-                        class="salary-input" type="number" /><view class="info-detail">i</view></view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">工伤保险个人缴纳百分比</text><input
-                        class="salary-input" type="number" /><view class="info-detail">i</view></view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">生育保险个人缴纳百分比</text><input
-                        class="salary-input" type="number" /><view class="info-detail">i</view></view>
-                <view class="salary-item"><text class="salary-title">住房公积金个人缴纳百分比</text><input class="salary-input"
-                        type="number" /></view>
-                <view class="salary-item"><text class="salary-title">补充住房公积金个人缴纳百分比</text><input class="salary-input"
-                        type="number" /></view>
-            </view>
-            <view class="salary-item salary-not-nec"><text class="salary-title">五险一金计算基数</text><input
-                    class="salary-input" type="number" /><text class="salary-unit">元</text><view class="info-detail" class="ei-info-sign"
-                    title="五险一金的缴费基数以员工上年度平均工资"></view></view>
-            <view class="salary-item salary-not-nec"><text class="salary-title">个人所得税起征点</text><input
-                    class="salary-input" type="number" /><text class="salary-unit">元</text></view>
-            <view class="salary-wrapper salary-not-nec">
-                <view class="salary-wrapper-title">五险一金公司缴纳部分</view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">养老保险公司缴纳百分比</text><input
-                        class="salary-input" type="number" /></view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">医疗保险公司缴纳百分比</text><input
-                        class="salary-input" type="number" /></view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">失业保险公司缴纳百分比</text><input
-                        class="salary-input" type="number" /></view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">工伤保险公司缴纳百分比</text><input
-                        class="salary-input" type="number" /></view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">生育保险公司缴纳百分比</text><input
-                        class="salary-input" type="number" /></view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">住房公积金公司缴纳百分比</text><input
-                        class="salary-input" type="number" /><view class="info-detail">i</view></view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">补充住房公积金公司缴纳百分比</text><input
-                        class="salary-input" type="number" /><view class="info-detail">i</view></view>
-            </view>
-            <view class="salary-item salary-not-nec"><text class="salary-title">每月额外津贴奖金</text><input
-                    class="salary-input" /><text class="salary-unit">元</text><view class="info-detail" class="ei-info-sign"
-                    title="每个月额外奖金，如果需要分12个月单独填写，请使用空格分开"></view></view>
-            <view class="salary-wrapper salary-not-nec">
-                <view class="salary-wrapper-title">公积金上下限</view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">下限</text><input class="salary-input"
-                        type="number" /><text class="salary-unit">元</text><view class="info-detail">i</view>
+        <view class="input-area {{showUnnecessary?'show-unnecessary':''}}">
+                <view bind:tap="toggleUnnecessary" class="input-more"><view class="info-detail">i</view>
+                        <text>{{showUnnecessary?'收起':'展开'}}更多信息</text>
                 </view>
-                <view class="salary-item salary-not-nec"><text class="salary-title">上限</text><input class="salary-input"
-                        type="number" /><text class="salary-unit">元</text><view class="info-detail">i</view>
+            
+            <view wx:for="{{TEXT_MAP}}" wx:for-index="key" wx:for-item="value" wx:key="key">
+                <view wx:if="{{value.base}}" class="salary-item {{value.nec?'':'salary-not-nec'}}">
+                        <text class="salary-title">{{value.text}}</text>
+                        <input 
+                                data-key="{{key}}" 
+                                value="{{salary[key]}}" 
+                                bindblur="onBlur" 
+                                class="salary-input" type="number" />
+                        <text class="salary-unit">{{value.unit || ''}}</text>
+                        <view wx:if="{{value.info}}" bind:tap="showInfo" data-info="{{value.info}}" data-url="{{value.url}}" class="info-detail">i</view>
+                </view>
+                <view wx:else class="salary-wrapper {{value.nec?'':'salary-not-nec'}}">
+                        <view class="salary-wrapper-title">{{value.text}}</view>
+                        <view wx:for="{{value}}"
+                                 wx:for-index="skey" 
+                                 wx:for-item="svalue"
+                                wx:key="skey"
+                                 wx:if="{{skey!=='text' && skey!=='nec'}}"
+                                 class="salary-item {{svalue.nec?'':'salary-not-nec'}}">
+                                <text class="salary-title">{{svalue.text}}</text>
+                                <input 
+                                data-key="{{key}}" 
+                                data-skey="{{skey}}" 
+                                bindblur="onBlur" 
+                                value="{{salary[key][skey]}}" class="salary-input" type="number" />
+                                <text class="salary-unit">{{svalue.unit || ''}}</text>
+                                <view wx:if="{{svalue.info}}" bind:tap="showInfo" data-info="{{svalue.info}}" data-url="{{svalue.url}}" class="info-detail">i</view>
+                        </view>
                 </view>
             </view>
         </view>
     </view>
     <view class="right">
         <view class="result-area">
-            <view class="salary-item"><text class="salary-title">年总税前收入</text><text
-                    class="salary-result">140000.00元</text><view class="info-detail">i</view></view>
-            <view class="salary-item"><text class="salary-title">年总税后收入</text><text
-                    class="salary-result">111410.00元</text><view class="info-detail">i</view></view>
-            <view class="salary-item"><text class="salary-title">年总税后收入(不含年终奖)</text><text
-                    class="salary-result">92010.00元</text><view class="info-detail">i</view></view>
-            <view class="salary-item"><text class="salary-title">月基础工资</text><text
-                    class="salary-result">10000.00元</text><view class="info-detail">i</view></view>
-            <view class="salary-item"><text class="salary-title">每月税前收入</text><text class="salary-result">[1月:10000.00元]
-                    [2月:10000.00元] [3月:10000.00元] [4月:10000.00元] [5月:10000.00元] [6月:10000.00元] [7月:10000.00元]
-                    [8月:10000.00元] [9月:10000.00元] [10月:10000.00元] [11月:10000.00元] [12月:10000.00元]</text><view class="info-detail"
-                    class="ei-info-sign" title="12个月份税前月收入(含奖金津贴)"></view></view>
-            <view class="salary-item"><text class="salary-title">每月税后收入</text><text class="salary-result">[1月:7667.50元]
-                    [2月:7667.50元] [3月:7667.50元] [4月:7667.50元] [5月:7667.50元] [6月:7667.50元] [7月:7667.50元] [8月:7667.50元]
-                    [9月:7667.50元] [10月:7667.50元] [11月:7667.50元] [12月:7667.50元]</text><view class="info-detail" class="ei-info-sign"
-                    title="12个月份税后收入"></view></view>
-            <view class="salary-item"><text class="salary-title">每月平均税后输入</text><text
-                    class="salary-result">7667.50元</text><view class="info-detail">i</view></view>
-            <view class="salary-item"><text class="salary-title">每月个人所得税</text><text class="salary-result">[1月:82.50元]
-                    [2月:82.50元] [3月:82.50元] [4月:82.50元] [5月:82.50元] [6月:82.50元] [7月:82.50元] [8月:82.50元] [9月:82.50元]
-                    [10月:82.50元] [11月:82.50元] [12月:82.50元]</text><view class="info-detail">i</view></view>
-            <view class="salary-item"><text class="salary-title">年总个人所得税</text><text
-                    class="salary-result">990.00元</text><view class="info-detail">i</view></view>
-            <view class="salary-item"><text class="salary-title">年终奖税前金额</text><text
-                    class="salary-result">20000.00元</text></view>
-            <view class="salary-item"><text class="salary-title">年终奖个人所得税金额</text><text
-                    class="salary-result">600.00元</text></view>
-            <view class="salary-item"><text class="salary-title">年终奖税后金额</text><text
-                    class="salary-result">19400.00元</text></view>
-            <view class="salary-wrapper">
-                <view class="salary-wrapper-title">五险一金个人缴纳部分</view>
-                <view class="salary-item"><text class="salary-title">养老保险个人缴纳金额</text><text
-                        class="salary-result">800.00元</text></view>
-                <view class="salary-item"><text class="salary-title">医疗保险个人缴纳金额</text><text
-                        class="salary-result">200.00元</text></view>
-                <view class="salary-item"><text class="salary-title">失业保险个人缴纳金额</text><text
-                        class="salary-result">50.00元</text></view>
-                <view class="salary-item"><text class="salary-title">工伤保险个人缴纳金额</text><text
-                        class="salary-result">0.00元</text></view>
-                <view class="salary-item"><text class="salary-title">生育保险个人缴纳金额</text><text
-                        class="salary-result">0.00元</text></view>
-                <view class="salary-item"><text class="salary-title">住房公积金个人缴纳金额</text><text
-                        class="salary-result">700.00元</text></view>
-                <view class="salary-item"><text class="salary-title">补充住房公积金个人缴纳金额</text><text
-                        class="salary-result">500.00元</text></view>
-                <view class="salary-item"><text class="salary-title">五险一金个人缴纳总金额</text><text
-                        class="salary-result">2250.00元</text></view>
-                <view class="salary-item"><text class="salary-title">住房公积金个人缴纳总金额</text><text
-                        class="salary-result">1200.00元</text></view>
-            </view>
-            <view class="salary-wrapper">
-                <view class="salary-wrapper-title">五险一金公司缴纳部分</view>
-                <view class="salary-item"><text class="salary-title">养老保险公司缴纳金额</text><text
-                        class="salary-result">2100.00元</text></view>
-                <view class="salary-item"><text class="salary-title">医疗保险公司缴纳金额</text><text
-                        class="salary-result">1100.00元</text></view>
-                <view class="salary-item"><text class="salary-title">失业保险公司缴纳金额</text><text
-                        class="salary-result">150.00元</text></view>
-                <view class="salary-item"><text class="salary-title">工伤保险公司缴纳金额</text><text
-                        class="salary-result">100.00元</text></view>
-                <view class="salary-item"><text class="salary-title">生育保险公司缴纳金额</text><text
-                        class="salary-result">100.00元</text></view>
-                <view class="salary-item"><text class="salary-title">住房公积金公司缴纳金额</text><text
-                        class="salary-result">700.00元</text></view>
-                <view class="salary-item"><text class="salary-title">补充住房公积金公司缴纳金额</text><text
-                        class="salary-result">500.00元</text></view>
-                <view class="salary-item"><text class="salary-title">五险一金公司缴纳总金额</text><text
-                        class="salary-result">4750.00元</text></view>
-                <view class="salary-item"><text class="salary-title">住房公积金个人缴纳总金额</text><text
-                        class="salary-result">1200.00元</text></view>
-            </view>
+                <view wx:for="{{RESULT_TEXT_MAP}}" wx:for-index="key" wx:for-item="value" wx:key="key">
+                         <view wx:if="{{value.base}}" class="salary-item">
+                                <text class="salary-title">{{value.text}}</text>
+                                <text class="salary-result">{{result[key]}}</text>
+                                <view wx:if="{{value.info}}" bind:tap="showInfo" data-info="{{value.info}}" data-url="{{value.url}}" class="info-detail">i</view>
+                        </view>
+                        <view wx:else class="salary-wrapper">
+                                <view class="salary-wrapper-title">{{value.text}}</view>
+                                <view wx:for="{{value}}"
+                                        wx:for-index="skey" 
+                                        wx:for-item="svalue"
+                                        wx:key="skey"
+                                        wx:if="{{skey!=='text'}}"
+                                        class="salary-item">
+                                <text class="salary-title">{{svalue.text}}</text>
+                                <text class="salary-result">{{result[key][skey]}}</text>
+                                <view wx:if="{{svalue.info}}" bind:tap="showInfo" data-info="{{svalue.info}}" data-url="{{svalue.url}}" class="info-detail">i</view>
+                                </view>
+                        </view>
+                </view>
         </view>
     </view>
 </view>

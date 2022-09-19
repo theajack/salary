@@ -4,7 +4,7 @@
  * @Description: Coding something
  */
 
-import {ICalculateData, ICalculateResult} from '../calculator/type';
+import {ICalculateData, ICalculateResult} from '../../../src/calculator/type';
 
 export interface IMapInfo {
     text: string;
