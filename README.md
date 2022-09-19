@@ -294,4 +294,6 @@ salaryTax 12个月的个税数值
 
 后续依次类推
 
-![]()
+扫一扫小程序体验
+
+![](https://raw.githubusercontent.com/theajack/salary/master/helper/salary-mp.jpg)
