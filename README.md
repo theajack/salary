@@ -1,6 +1,11 @@
 ## [easy-salary](https://github.com/theajack/salary) （工资计算器）
 
+
 **[在线使用](https://theajack.github.io/salary)**
+
+扫描或wx搜索`收入详情计算器`使用小程序
+
+<img src='https://shiyix.cn/salary-mp.jpg' width='200px'/>
 
 适用于2022年新个税计算法的工资计算器，包含基础月薪、年终奖、五险一金、个人所得税计算
 
@@ -293,7 +298,3 @@ salaryTax 12个月的个税数值
 `税后收入` = 30000 - 30000 * 0.225 - 1500 = 21750
 
 后续依次类推
-
-扫一扫小程序体验
-
-![](https://raw.githubusercontent.com/theajack/salary/master/helper/salary-mp.jpg)
