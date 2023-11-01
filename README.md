@@ -5,7 +5,7 @@
 
 扫描或wx搜索`收入详情计算器`使用小程序
 
-<img src='https://shiyix.cn/salary-mp.jpg' width='200px'/>
+<img src='https://shiyix.cn/images/salary-mp.jpg' width='200px'/>
 
 适用于2022年新个税计算法的工资计算器，包含基础月薪、年终奖、五险一金、个人所得税计算
 
